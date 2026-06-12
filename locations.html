@@ -1,0 +1,2427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Locations - Red Oven Pizza</title>
+
+  <!-- Google Fonts for Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-color: #F8F9FB;
+      --card-bg: #FFFFFF;
+      --text-primary: #1F2224;
+      --text-secondary: #90939A;
+      --accent-color: #C91A25;
+      --accent-color-hover: #9E121B;
+      --yellow-star: #FFD233;
+      --site-max-width: 1380px;
+
+      --topic-font-size: 32px;
+      --topic-font-weight: 700;
+      --topic-font-color: #000000;
+
+      --subtopic-font-size: 18px;
+      --subtopic-font-weight: 600;
+      --subtopic-font-color: #000000;
+
+      --paragraph-font-size: 16px;
+      --paragraph-font-weight: 400;
+      --paragraph-font-color: #1F2224;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-primary);
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    button,
+    a,
+    input,
+    select {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .locations-page {
+      width: 100%;
+      padding: 116px 0 0;
+      overflow: hidden;
+    }
+
+    .locations-container {
+      width: min(var(--site-max-width), calc(100% - 44px));
+      margin: 0 auto;
+    }
+
+    .locations-kicker {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(201, 26, 37, 0.08);
+      color: var(--accent-color);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .locations-section-title {
+      color: var(--topic-font-color);
+      font-size: var(--topic-font-size);
+      font-weight: 700;
+      letter-spacing: 0.25px;
+      line-height: 1.24;
+    }
+
+    .locations-section-subtitle {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.82;
+      letter-spacing: 0.08px;
+      font-weight: 500;
+    }
+
+    /* --- Header --- */
+    .pizza-header {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      padding: 16px 32px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(18px);
+    }
+
+    .pizza-header-inner {
+      width: 100%;
+      max-width: var(--site-max-width);
+      margin: 0 auto;
+      height: 64px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .pizza-logo {
+      width: 64px;
+      height: 70px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .pizza-logo img {
+      width: 64px;
+      height: 70px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .pizza-nav {
+      width: fit-content;
+      margin: 0 auto;
+      height: 46px;
+      padding: 5px;
+      border-radius: 999px;
+      background: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+    }
+
+    .pizza-nav a {
+      height: 36px;
+      min-width: 82px;
+      padding: 0 18px;
+      border-radius: 999px;
+      color: #121212;
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .pizza-nav a.active {
+      background: #C91A24;
+      color: #ffffff;
+    }
+
+    .pizza-nav a:hover {
+      background: rgba(201, 26, 36, 0.12);
+      color: #C91A24;
+    }
+
+    .pizza-nav a.active:hover {
+      background: #C91A24;
+      color: #ffffff;
+    }
+
+    .pizza-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 14px;
+    }
+
+    .icon-btn,
+    .cart-btn,
+    .mobile-menu-btn {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      background: transparent;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      color: #050505;
+    }
+
+    .icon-btn i {
+      width: 23px;
+      height: 23px;
+      stroke-width: 2.3;
+    }
+
+    .cart-btn {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #C91A24;
+      color: #ffffff;
+    }
+
+    .cart-btn i {
+      width: 21px;
+      height: 21px;
+      stroke-width: 2.4;
+    }
+
+    .cart-btn span {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 19px;
+      height: 19px;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #C91A24;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #C91A24;
+    }
+
+    .mobile-menu-btn i {
+      width: 23px;
+      height: 23px;
+      stroke-width: 2.4;
+    }
+
+    .mobile-nav {
+      display: none;
+      width: calc(100% - 64px);
+      max-width: var(--site-max-width);
+      margin: 14px auto 0;
+      padding: 14px;
+      border-radius: 20px;
+      background: #ffffff;
+    }
+
+    .mobile-nav a {
+      width: 100%;
+      padding: 15px 18px;
+      border-radius: 14px;
+      color: #121212;
+      font-size: 16px;
+      font-weight: 800;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .mobile-nav a.active {
+      background: #C91A24;
+      color: #ffffff;
+    }
+
+    /* --- Banner Hero --- */
+    .locations-landing-section {
+      width: min(var(--site-max-width), calc(100% - 64px));
+      margin: 0 auto 58px;
+      padding: 26px 0 30px;
+    }
+
+    .locations-banner-hero {
+      position: relative;
+      min-height: 260px;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background:
+        linear-gradient(rgba(16, 18, 21, 0.62), rgba(16, 18, 21, 0.62)),
+        url("https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?w=1600&h=560&fit=crop") center/cover;
+      box-shadow: 0 18px 45px rgba(31, 34, 36, 0.10);
+    }
+
+    .locations-banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.52) 100%);
+    }
+
+    .locations-banner-content {
+      position: relative;
+      z-index: 2;
+      padding: 36px 22px;
+    }
+
+    .locations-banner-content h1 {
+      margin: 0 0 10px;
+      color: #ffffff;
+      font-size: clamp(34px, 4vw, 54px);
+      line-height: 1.22;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .locations-banner-breadcrumb {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .locations-banner-breadcrumb a {
+      color: rgba(255, 255, 255, 0.88);
+      text-decoration: none;
+    }
+
+    .locations-banner-breadcrumb a:hover {
+      color: #ffffff;
+    }
+
+    .locations-hero-search-wrap {
+      width: min(980px, calc(100% - 24px));
+      margin: -32px auto 0;
+      position: relative;
+      z-index: 5;
+    }
+
+    .locations-search-card {
+      width: 100%;
+      margin: 0 auto;
+      padding: 8px;
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) minmax(180px, 0.32fr) auto;
+      gap: 8px;
+      border-radius: 18px;
+      background: #ffffff;
+      box-shadow: 0 16px 38px rgba(31, 34, 36, 0.10);
+      border: 1px solid rgba(31, 34, 36, 0.06);
+    }
+
+    .locations-search-box,
+    .locations-select-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 58px;
+      padding: 0 16px;
+      background: #F8F9FB;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      transition: all 0.25s ease;
+    }
+
+    .locations-search-box:focus-within,
+    .locations-select-box:focus-within {
+      background: #ffffff;
+      border-color: rgba(201, 26, 37, 0.42);
+      box-shadow: 0 0 0 4px rgba(201, 26, 37, 0.10);
+    }
+
+    .locations-search-box i,
+    .locations-select-box i {
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+
+    .locations-search-box input,
+    .locations-select-box select {
+      width: 100%;
+      height: 58px;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text-primary);
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .locations-select-box select {
+      appearance: none;
+    }
+
+    .locations-clear-search {
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: none;
+    }
+
+    .locations-clear-search.is-visible {
+      display: inline-flex;
+    }
+
+    .locations-find-btn {
+      height: 58px;
+      border: none;
+      border-radius: 14px;
+      padding: 0 24px;
+      background: var(--accent-color);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      white-space: nowrap;
+      transition: all 0.25s ease;
+    }
+
+    .locations-find-btn:hover {
+      background: var(--accent-color-hover);
+      transform: translateY(-1px);
+    }
+
+    .locations-quick-filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .locations-quick-filters span {
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .location-filter-btn {
+      border: 1px solid rgba(31, 34, 36, 0.08);
+      background: #ffffff;
+      color: var(--text-primary);
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .location-filter-btn:hover,
+    .location-filter-btn.active {
+      border-color: var(--accent-color);
+      background: var(--accent-color);
+      color: #ffffff;
+    }
+
+    /* --- Stats --- */
+    .locations-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 66px;
+    }
+
+    .locations-stat-card {
+      background: #ffffff;
+      border: 1px solid rgba(31, 34, 36, 0.05);
+      border-radius: 22px;
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 14px;
+      align-items: center;
+      transition: 0.24s ease;
+    }
+
+    .locations-stat-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(201, 26, 37, 0.22);
+    }
+
+    .locations-stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: rgba(201, 26, 37, 0.08);
+      color: var(--accent-color);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .locations-stat-card strong {
+      display: block;
+      color: var(--text-primary);
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      line-height: 1.28;
+      letter-spacing: 0.18px;
+    }
+
+    .locations-stat-card span {
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    /* --- Branch Finder Layout --- */
+    .branches-section {
+      margin-bottom: px;
+    }
+
+    .locations-heading-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: flex-end;
+      margin-bottom: 24px;
+    }
+
+    .locations-heading-copy {
+      max-width: 720px;
+    }
+
+    .locations-heading-copy h2 {
+      margin: 14px 0 10px;
+    }
+
+    .locations-help-card {
+      background: #111111;
+      color: #ffffff;
+      border-radius: 22px;
+      padding: 18px 20px;
+      min-width: 280px;
+    }
+
+    .locations-help-card span {
+      display: block;
+      color: rgba(255, 255, 255, 0.64);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+
+    .locations-help-card strong {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.1px;
+    }
+
+    .locations-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(330px, 0.34fr);
+      gap: 26px;
+      align-items: start;
+    }
+
+    .locations-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .location-card {
+      background: #ffffff;
+      border-radius: 28px;
+      border: 1px solid rgba(31, 34, 36, 0.05);
+      overflow: hidden;
+      transition: 0.26s ease;
+      position: relative;
+    }
+
+    .location-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(201, 26, 37, 0.20);
+      box-shadow: 0 18px 42px rgba(31, 34, 36, 0.07);
+    }
+
+    .location-card.hide {
+      display: none;
+    }
+
+    .location-card-top {
+      position: relative;
+      min-height: 150px;
+      padding: 22px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(7, 10, 15, 0.54), rgba(7, 10, 15, 0.28)),
+        url("Assets/Slider Image 1.png") center/cover no-repeat;
+      background-blend-mode: multiply, normal;
+    }
+
+    .location-card-top::after {
+      content: "";
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      right: -70px;
+      bottom: -86px;
+      border-radius: 50%;
+      background: rgba(201, 26, 37, 0.08);
+      pointer-events: none;
+    }
+
+    .location-card-badges {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .location-status,
+    .location-service {
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+
+    .location-status.open {
+      background: rgba(19, 160, 89, 0.10);
+      color: #13A059;
+    }
+
+    .location-status.soon {
+      background: rgba(255, 210, 51, 0.18);
+      color: #9B6A00;
+    }
+
+    .location-service {
+      background: #ffffff;
+      color: var(--text-primary);
+      border: 1px solid rgba(31, 34, 36, 0.06);
+    }
+
+    .location-pin-icon {
+      position: absolute;
+      right: 28px;
+      bottom: 22px;
+      width: 72px;
+      height: 72px;
+      border-radius: 24px;
+      background: var(--accent-color);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 18px 34px rgba(201, 26, 37, 0.24);
+      z-index: 3;
+    }
+
+    .location-pin-icon i {
+      font-size: 28px;
+    }
+
+    .location-city-mark {
+      position: absolute;
+      left: 22px;
+      bottom: 22px;
+      color: rgba(31, 34, 36, 0.05);
+      font-size: 58px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.08em;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .location-card-body {
+      padding: 22px;
+    }
+
+    .location-card-body h3 {
+      color: var(--text-primary);
+      font-size: 22px;
+      line-height: 1.28;
+      letter-spacing: 0.18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .location-address {
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.6;
+      font-weight: 600;
+      min-height: 42px;
+      margin-bottom: 16px;
+    }
+
+    .location-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .location-meta-pill {
+      border-radius: 15px;
+      background: #f5f6f7;
+      color: #565961;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+    }
+
+    .location-meta-pill i {
+      color: var(--accent-color);
+      font-size: 13px;
+      width: 14px;
+    }
+
+    .location-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .location-primary-btn,
+    .location-secondary-btn {
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 900;
+      transition: 0.24s ease;
+    }
+
+    .location-primary-btn {
+      background: var(--accent-color);
+      color: #ffffff;
+      border: 1px solid var(--accent-color);
+    }
+
+    .location-primary-btn:hover {
+      background: var(--accent-color-hover);
+      border-color: var(--accent-color-hover);
+      transform: translateY(-2px);
+    }
+
+    .location-secondary-btn {
+      background: #ffffff;
+      color: var(--text-primary);
+      border: 1px solid rgba(31, 34, 36, 0.12);
+    }
+
+    .location-secondary-btn:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+      transform: translateY(-2px);
+    }
+
+    /* --- Side Map Card --- */
+    .locations-map-card {
+      position: sticky;
+      top: 120px;
+      background: #ffffff;
+      border: 1px solid rgba(31, 34, 36, 0.05);
+      border-radius: 30px;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .locations-map-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(201, 26, 37, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 26, 37, 0.035) 1px, transparent 1px);
+      background-size: 26px 26px;
+      pointer-events: none;
+    }
+
+    .locations-map-head {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .locations-map-head h3 {
+      color: var(--text-primary);
+      font-size: 22px;
+      line-height: 1.28;
+      letter-spacing: 0.18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .locations-map-head p {
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .locations-map-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: rgba(201, 26, 37, 0.08);
+      color: var(--accent-color);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .locations-map-visual {
+      position: relative;
+      z-index: 2;
+      height: 330px;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 30% 32%, rgba(255, 210, 51, 0.23), transparent 18%),
+        radial-gradient(circle at 72% 72%, rgba(201, 26, 37, 0.16), transparent 20%),
+        linear-gradient(135deg, #fff7f2, #f8f9fb);
+      border: 1px solid rgba(31, 34, 36, 0.05);
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .map-road {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 999px;
+      box-shadow: 0 10px 28px rgba(31, 34, 36, 0.04);
+    }
+
+    .map-road.one {
+      width: 120%;
+      height: 18px;
+      left: -10%;
+      top: 44%;
+      transform: rotate(22deg);
+    }
+
+    .map-road.two {
+      width: 18px;
+      height: 120%;
+      left: 48%;
+      top: -10%;
+      transform: rotate(16deg);
+    }
+
+    .map-road.three {
+      width: 90%;
+      height: 15px;
+      left: 4%;
+      bottom: 22%;
+      transform: rotate(-16deg);
+    }
+
+    .map-pin {
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      border-radius: 50% 50% 50% 8px;
+      background: var(--accent-color);
+      color: #ffffff;
+      transform: rotate(-45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 14px 26px rgba(201, 26, 37, 0.26);
+    }
+
+    .map-pin i {
+      transform: rotate(45deg);
+      font-size: 14px;
+    }
+
+    .map-pin.pin-1 { left: 18%; top: 24%; }
+    .map-pin.pin-2 { right: 18%; top: 34%; }
+    .map-pin.pin-3 { left: 45%; top: 55%; }
+    .map-pin.pin-4 { right: 28%; bottom: 18%; }
+
+    .locations-map-list {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 10px;
+    }
+
+    .locations-map-list button {
+      border: 1px solid rgba(31, 34, 36, 0.06);
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 12px;
+      text-align: left;
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      transition: 0.24s ease;
+    }
+
+    .locations-map-list button:hover {
+      border-color: rgba(201, 26, 37, 0.24);
+      transform: translateX(2px);
+    }
+
+    .map-list-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: rgba(201, 26, 37, 0.08);
+      color: var(--accent-color);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .map-list-copy strong {
+      display: block;
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 3px;
+    }
+
+    .map-list-copy span {
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .map-list-arrow {
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    /* --- Feature Banner --- */
+    .locations-feature-banner {
+      margin: 82px auto 76px;
+      min-height: 330px;
+      border-radius: 32px;
+      overflow: visible;
+      background:
+        radial-gradient(circle at 78% 48%, rgba(255, 255, 255, 0.22), transparent 28%),
+        linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-hover) 100%);
+      color: #ffffff;
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(430px, 0.78fr);
+      align-items: center;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .locations-feature-banner::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 26px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0));
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .locations-feature-copy {
+      padding: 42px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .locations-feature-copy .locations-kicker {
+      background: #ffffff;
+      color: var(--accent-color);
+      margin-bottom: 14px;
+      padding: 8px 16px;
+    }
+
+    .locations-feature-copy h2 {
+      max-width: 590px;
+      color: #ffffff;
+      font-size: clamp(32px, 3vw, 50px);
+      line-height: 1.24;
+      letter-spacing: 0.25px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .locations-feature-copy p {
+      max-width: 540px;
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 14px;
+      line-height: 1.65;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .locations-feature-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .locations-feature-list div {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.13);
+      backdrop-filter: blur(8px);
+    }
+
+    .locations-feature-list i {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.22);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+
+    .locations-feature-btn {
+      width: fit-content;
+      min-height: 44px;
+      padding: 0 20px;
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--accent-color);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.24s ease;
+      position: relative;
+      z-index: 4;
+    }
+
+    .locations-feature-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .locations-feature-image {
+      height: 330px;
+      min-height: 330px;
+      position: relative;
+      z-index: 2;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .locations-feature-image img {
+      position: absolute;
+      right: -90px;
+      bottom: -92px;
+      width: min(58vw, 720px);
+      height: 440px;
+      max-height: none;
+      object-fit: contain;
+      transform: scale(1.12);
+      transform-origin: center bottom;
+      filter: drop-shadow(0 46px 56px rgba(0, 0, 0, 0.34));
+      z-index: 6;
+    }
+
+    /* --- Visit Options --- */
+    .visit-options-section {
+      margin-bottom: 76px;
+    }
+
+    .visit-options-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 24px;
+    }
+
+    .visit-option-card {
+      background: #ffffff;
+      border-radius: 26px;
+      border: 1px solid rgba(31, 34, 36, 0.05);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .visit-option-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(201, 26, 37, 0.06);
+      pointer-events: none;
+    }
+
+    .visit-option-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(201, 26, 37, 0.18);
+      box-shadow: 0 18px 42px rgba(31, 34, 36, 0.07);
+    }
+
+    .visit-option-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: var(--accent-color);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      margin-bottom: 22px;
+    }
+
+    .visit-option-card h3 {
+      color: var(--text-primary);
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.28;
+      letter-spacing: 0.18px;
+      margin-bottom: 10px;
+    }
+
+    .visit-option-card p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.65;
+      font-weight: 600;
+    }
+
+    /* --- Opening Soon / CTA --- */
+    .locations-bottom-cta {
+      background: #ffffff;
+      border-radius: 32px;
+      border: 1px solid rgba(31, 34, 36, 0.05);
+      padding: 34px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .locations-bottom-cta h2 {
+      color: var(--text-primary);
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1.24;
+      letter-spacing: 0.25px;
+      margin-bottom: 8px;
+    }
+
+    .locations-bottom-cta p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.55;
+      font-weight: 600;
+      max-width: 760px;
+    }
+
+    .locations-cta-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .locations-cta-actions a,
+    .locations-cta-actions button {
+      min-height: 48px;
+      padding: 0 22px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 900;
+      transition: 0.24s ease;
+    }
+
+    .locations-cta-actions a {
+      border: 1px solid var(--accent-color);
+      background: var(--accent-color);
+      color: #ffffff;
+    }
+
+    .locations-cta-actions a:hover {
+      background: var(--accent-color-hover);
+      border-color: var(--accent-color-hover);
+      transform: translateY(-2px);
+    }
+
+    .locations-cta-actions button {
+      border: 1px solid rgba(31, 34, 36, 0.12);
+      background: #ffffff;
+      color: var(--text-primary);
+    }
+
+    .locations-cta-actions button:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+      transform: translateY(-2px);
+    }
+
+    .locations-empty-state {
+      display: none;
+      grid-column: 1 / -1;
+      background: #ffffff;
+      border: 1px dashed rgba(201, 26, 37, 0.35);
+      border-radius: 26px;
+      padding: 34px;
+      text-align: center;
+    }
+
+    .locations-empty-state.show {
+      display: block;
+    }
+
+    .locations-empty-state i {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      background: rgba(201, 26, 37, 0.08);
+      color: var(--accent-color);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+
+    .locations-empty-state h3 {
+      color: var(--text-primary);
+      font-size: 22px;
+      line-height: 1.28;
+      letter-spacing: 0.18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .locations-empty-state p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.65;
+      font-weight: 600;
+    }
+
+    .locations-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 26px;
+      z-index: 3000;
+      transform: translate(-50%, 24px);
+      opacity: 0;
+      visibility: hidden;
+      background: #111111;
+      color: #ffffff;
+      padding: 13px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      transition: 0.26s ease;
+    }
+
+    .locations-toast.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+    }
+
+    /* --- Footer --- */
+    .pizza-footer {
+      margin: 60px 0 0 0;
+      padding: 60px 42px 40px;
+      border-radius: 0;
+      background: rgba(229, 229, 229, 0.443);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      box-shadow: 0 8px 95px rgba(0, 0, 0, 0.132);
+      overflow: hidden;
+    }
+
+    .pizza-footer-inner {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.1fr 2.4fr;
+      gap: 70px;
+      align-items: flex-start;
+    }
+
+    .footer-brand {
+      max-width: 330px;
+    }
+
+    .footer-logo {
+      width: 92px;
+      height: 92px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      text-decoration: none;
+    }
+
+    .footer-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .footer-brand p {
+      margin: 0;
+      color: #6f6f6f;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.7;
+    }
+
+    .footer-links-wrap {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 34px;
+    }
+
+    .footer-link-column h4 {
+      margin: 0 0 16px;
+      color: #111111;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .footer-link-column a {
+      width: fit-content;
+      display: block;
+      margin-bottom: 11px;
+      color: #777777;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.2;
+      text-decoration: none;
+      transition: 0.25s ease;
+    }
+
+    .footer-link-column a:hover {
+      color: #C91A24;
+      transform: translateX(3px);
+    }
+
+    .footer-bottom {
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(17, 17, 17, 0.08);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .footer-bottom p {
+      margin: 0;
+      color: #777777;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .footer-bottom p:last-child {
+      text-align: right;
+    }
+
+    .footer-socials {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+    }
+
+    .footer-socials a {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #111111;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 12px;
+      transition: 0.25s ease;
+    }
+
+    .footer-socials a:hover {
+      background: #C91A24;
+      transform: translateY(-3px);
+    }
+
+    /* --- Bottom Fixed Menu (mobile) --- */
+    .bottom-menu {
+      display: none;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 12px;
+      z-index: 1200;
+      pointer-events: auto;
+    }
+
+    .bottom-menu-inner {
+      width: calc(100% - 32px);
+      max-width: var(--site-max-width);
+      margin: 0 auto;
+      height: 64px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px;
+    }
+
+    .bottom-cart-btn {
+      width: 56px;
+      height: 48px;
+      border-radius: 10px;
+      background: var(--accent-color);
+      color: #ffffff;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .bottom-cart-count {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: #ffffff;
+      color: var(--accent-color);
+      border-radius: 999px;
+      padding: 2px 6px;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .bottom-order-btn {
+      flex: 1;
+      height: 48px;
+      border-radius: 10px;
+      background: var(--accent-color);
+      color: #ffffff;
+      border: none;
+      font-weight: 700;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 1180px) {
+      .pizza-nav a {
+        min-width: auto;
+        padding: 0 14px;
+        font-size: 14px;
+      }
+
+      .locations-stat-grid,
+      .visit-options-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .locations-layout,
+      .locations-feature-banner {
+        grid-template-columns: 1fr;
+      }
+
+      .locations-map-card {
+        position: relative;
+        top: auto;
+      }
+
+      .locations-feature-banner {
+        overflow: hidden;
+        min-height: auto;
+      }
+
+      .locations-feature-copy {
+        padding: 34px 32px 12px;
+      }
+
+      .locations-feature-image {
+        height: 300px;
+        min-height: 300px;
+      }
+
+      .locations-feature-image img {
+        left: 50%;
+        right: auto;
+        bottom: -78px;
+        width: min(96%, 680px);
+        height: 390px;
+        transform: translateX(-50%) scale(1.10);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .pizza-header {
+        padding: 14px 22px;
+      }
+
+      .pizza-header-inner {
+        height: 58px;
+        grid-template-columns: auto 1fr auto;
+      }
+
+      .pizza-nav {
+        display: none;
+      }
+
+      .pizza-logo {
+        width: 58px;
+        height: 58px;
+      }
+
+      .pizza-logo img {
+        width: 52px;
+        height: 52px;
+      }
+
+      .icon-btn {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: inline-flex;
+      }
+
+      .mobile-nav.is-open {
+        display: block;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .bottom-menu { display: block; }
+      .pizza-footer { padding-bottom: 106px; }
+    }
+
+    @media (min-width: 901px) {
+      .bottom-menu { display: none; }
+    }
+
+    @media (max-width: 860px) {
+      .locations-page {
+        padding-top: 96px;
+      }
+
+      .locations-heading-row,
+      .locations-bottom-cta {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .locations-help-card {
+        min-width: 0;
+        width: 100%;
+      }
+
+      .locations-search-card {
+        grid-template-columns: 1fr;
+        border-radius: 16px;
+      }
+
+      .locations-find-btn {
+        width: 100%;
+      }
+
+      .locations-cta-actions {
+        justify-content: flex-start;
+      }
+
+      .pizza-footer {
+        margin: 40px 0 0 0;
+        padding: 40px 24px 106px;
+        border-radius: 0;
+      }
+
+      .pizza-footer-inner {
+        grid-template-columns: 1fr;
+        gap: 38px;
+      }
+
+      .footer-brand {
+        max-width: 460px;
+      }
+
+      .footer-links-wrap {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 28px;
+      }
+
+      .footer-bottom {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 16px;
+      }
+
+      .footer-bottom p:last-child {
+        text-align: center;
+      }
+
+      .footer-socials {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 680px) {
+      :root {
+        --topic-font-size: 26px;
+      }
+
+      .locations-container {
+        width: calc(100% - 28px);
+      }
+
+      .locations-landing-section {
+        width: min(var(--site-max-width), calc(100% - 28px));
+        padding: 18px 0 24px;
+        margin-bottom: 46px;
+      }
+
+      .locations-banner-hero {
+        min-height: 190px;
+        border-radius: 8px;
+      }
+
+      .locations-banner-content h1 {
+        font-size: 32px;
+      }
+
+      .locations-hero-search-wrap {
+        width: calc(100% - 12px);
+        margin-top: -18px;
+      }
+
+      .locations-quick-filters {
+        justify-content: flex-start;
+        margin-top: 12px;
+      }
+
+      .locations-stat-grid,
+      .locations-grid,
+      .visit-options-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .locations-stat-grid,
+      .branches-section,
+      .visit-options-section {
+        margin-bottom: 54px;
+      }
+
+      .locations-map-visual {
+        height: 280px;
+      }
+
+      .locations-feature-banner,
+      .locations-bottom-cta {
+        border-radius: 24px;
+      }
+
+      .locations-feature-banner {
+        margin: 58px auto 68px;
+      }
+
+      .locations-feature-copy {
+        padding: 28px 22px 8px;
+      }
+
+      .locations-feature-copy h2 {
+        font-size: 30px;
+      }
+
+      .locations-feature-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .locations-feature-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .locations-feature-image {
+        height: 245px;
+        min-height: 245px;
+      }
+
+      .locations-feature-image img {
+        bottom: -82px;
+        width: 126%;
+        height: 320px;
+        transform: translateX(-50%) scale(1.02);
+      }
+
+      .location-meta-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .locations-bottom-cta {
+        padding: 26px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .pizza-header {
+        padding: 12px 14px;
+      }
+
+      .mobile-nav {
+        width: calc(100% - 28px);
+      }
+
+      .location-card-actions,
+      .locations-cta-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .location-primary-btn,
+      .location-secondary-btn,
+      .locations-cta-actions a,
+      .locations-cta-actions button {
+        width: 100%;
+      }
+
+      .pizza-footer {
+        margin: 30px 0 0 0;
+        padding: 30px 20px 106px;
+        border-radius: 0;
+      }
+
+      .footer-logo {
+        width: 78px;
+        height: 78px;
+      }
+
+      .footer-links-wrap {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .footer-link-column h4 {
+        margin-bottom: 12px;
+      }
+
+      .footer-link-column a {
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header Section -->
+  <header class="pizza-header">
+    <div class="pizza-header-inner">
+      <a href="index.html" class="pizza-logo">
+        <img src="Assets/logo.png" alt="Red Oven Pizza Logo">
+      </a>
+
+      <nav class="pizza-nav">
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="deals.html">Deals</a>
+        <a href="locations.html" class="active">Locations</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="pizza-actions">
+        <button class="icon-btn" type="button" aria-label="User Account">
+          <i data-lucide="user"></i>
+        </button>
+
+        <button class="cart-btn" type="button" aria-label="Cart">
+          <i data-lucide="shopping-bag"></i>
+          <span class="cart-count">0</span>
+        </button>
+
+        <button class="mobile-menu-btn" type="button" aria-label="Open Menu">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-nav">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="deals.html">Deals</a>
+      <a href="locations.html" class="active">Locations</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </header>
+
+  <main class="locations-page">
+    <!-- Hero Section -->
+    <section class="locations-landing-section" aria-label="Locations hero">
+      <div class="locations-banner-hero">
+        <div class="locations-banner-overlay"></div>
+
+        <div class="locations-banner-content">
+          <h1>Find Your Nearest Red Oven</h1>
+
+          <div class="locations-banner-breadcrumb">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <span>Locations</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="locations-hero-search-wrap">
+        <div class="locations-search-card">
+          <label class="locations-search-box" for="locationSearchInput">
+            <i class="fas fa-search"></i>
+            <input id="locationSearchInput" type="text" placeholder="Search by city, branch, street or service...">
+            <button class="locations-clear-search" id="clearLocationSearch" type="button" aria-label="Clear search">
+              <i class="fas fa-xmark"></i>
+            </button>
+          </label>
+
+          <label class="locations-select-box" for="citySelect">
+            <i class="fas fa-location-dot"></i>
+            <select id="citySelect" aria-label="Choose a city">
+              <option value="all">All cities</option>
+              <option value="chicago">Chicago</option>
+              <option value="miami">Miami</option>
+              <option value="new york">New York</option>
+              <option value="los angeles">Los Angeles</option>
+              <option value="dallas">Dallas</option>
+              <option value="seattle">Seattle</option>
+            </select>
+          </label>
+
+          <button class="locations-find-btn" type="button" id="showAllBranchesBtn">
+            Show Branches
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    
+
+    <!-- Branches -->
+    <section class="branches-section" id="branches">
+      <div class="locations-container">
+        <div class="locations-heading-row">
+          <div class="locations-heading-copy">
+            <span class="locations-kicker"><i class="fas fa-location-dot"></i> Branch finder</span>
+            <h2 class="locations-section-title">Choose a branch near you</h2>
+            <p class="locations-section-subtitle">
+              Browse Red Oven Pizza branches by city, service type and opening status. Each branch card includes opening hours, contact number, pickup support and directions.
+            </p>
+          </div>
+        </div>
+
+        <div class="locations-layout">
+          <div class="locations-grid" id="locationsGrid">
+            <article class="location-card" data-city="chicago" data-search="red oven pizza chicago downtown dine-in delivery late-night open" data-tags="open delivery dine-in late-night">
+              <div class="location-card-top">
+                <div class="location-card-badges">
+                  <span class="location-status open"><i class="fas fa-circle"></i> Open Now</span>
+                  <span class="location-service">Dine-In</span>
+                </div>
+                <span class="location-city-mark">CHI</span>
+                
+              </div>
+              <div class="location-card-body">
+                <h3>Red Oven Pizza - Chicago Downtown</h3>
+                <p class="location-address">214 West Lake Street, Downtown Chicago, IL 60606</p>
+
+                <div class="location-meta-grid">
+                  <span class="location-meta-pill"><i class="fas fa-clock"></i> 10:00 AM - 12:00 AM</span>
+                  <span class="location-meta-pill"><i class="fas fa-route"></i> 2.4 mi away</span>
+                  <span class="location-meta-pill"><i class="fas fa-truck-fast"></i> Delivery</span>
+                  <span class="location-meta-pill"><i class="fas fa-star"></i> 4.9 rating</span>
+                </div>
+
+                <div class="location-card-actions">
+                  <a class="location-primary-btn" href="https://www.google.com/maps/search/?api=1&query=Red+Oven+Pizza+Chicago+Downtown" target="_blank" rel="noopener">
+                    Directions <i class="fas fa-arrow-right"></i>
+                  </a>
+                  <a class="location-secondary-btn" href="tel:+13125550114">
+                    Call Branch <i class="fas fa-phone"></i>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="location-card" data-city="miami" data-search="red oven pizza miami beach delivery pickup open" data-tags="open delivery pickup">
+              <div class="location-card-top">
+                <div class="location-card-badges">
+                  <span class="location-status open"><i class="fas fa-circle"></i> Open Now</span>
+                  <span class="location-service">Pickup</span>
+                </div>
+                <span class="location-city-mark">MIA</span>
+                
+              </div>
+              <div class="location-card-body">
+                <h3>Red Oven Pizza - Miami Beach</h3>
+                <p class="location-address">88 Ocean Drive, Miami Beach, FL 33139</p>
+
+                <div class="location-meta-grid">
+                  <span class="location-meta-pill"><i class="fas fa-clock"></i> 11:00 AM - 11:30 PM</span>
+                  <span class="location-meta-pill"><i class="fas fa-route"></i> 3.1 mi away</span>
+                  <span class="location-meta-pill"><i class="fas fa-truck-fast"></i> Delivery</span>
+                  <span class="location-meta-pill"><i class="fas fa-star"></i> 4.8 rating</span>
+                </div>
+
+                <div class="location-card-actions">
+                  <a class="location-primary-btn" href="https://www.google.com/maps/search/?api=1&query=Red+Oven+Pizza+Miami+Beach" target="_blank" rel="noopener">
+                    Directions <i class="fas fa-arrow-right"></i>
+                  </a>
+                  <a class="location-secondary-btn" href="tel:+13055550142">
+                    Call Branch <i class="fas fa-phone"></i>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="location-card" data-city="new york" data-search="red oven pizza new york times square dine-in delivery late-night open" data-tags="open delivery dine-in late-night">
+              <div class="location-card-top">
+                <div class="location-card-badges">
+                  <span class="location-status open"><i class="fas fa-circle"></i> Open Now</span>
+                  <span class="location-service">Late Night</span>
+                </div>
+                <span class="location-city-mark">NYC</span>
+                
+              </div>
+              <div class="location-card-body">
+                <h3>Red Oven Pizza - New York Times Square</h3>
+                <p class="location-address">146 West 45th Street, New York, NY 10036</p>
+
+                <div class="location-meta-grid">
+                  <span class="location-meta-pill"><i class="fas fa-clock"></i> 10:30 AM - 1:00 AM</span>
+                  <span class="location-meta-pill"><i class="fas fa-route"></i> 1.8 mi away</span>
+                  <span class="location-meta-pill"><i class="fas fa-utensils"></i> Dine-In</span>
+                  <span class="location-meta-pill"><i class="fas fa-star"></i> 5.0 rating</span>
+                </div>
+
+                <div class="location-card-actions">
+                  <a class="location-primary-btn" href="https://www.google.com/maps/search/?api=1&query=Red+Oven+Pizza+New+York+Times+Square" target="_blank" rel="noopener">
+                    Directions <i class="fas fa-arrow-right"></i>
+                  </a>
+                  <a class="location-secondary-btn" href="tel:+12125550190">
+                    Call Branch <i class="fas fa-phone"></i>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="location-card" data-city="los angeles" data-search="red oven pizza los angeles hollywood delivery dine-in open" data-tags="open delivery dine-in">
+              <div class="location-card-top">
+                <div class="location-card-badges">
+                  <span class="location-status open"><i class="fas fa-circle"></i> Open Now</span>
+                  <span class="location-service">Delivery</span>
+                </div>
+                <span class="location-city-mark">LA</span>
+                
+              </div>
+              <div class="location-card-body">
+                <h3>Red Oven Pizza - Los Angeles Hollywood</h3>
+                <p class="location-address">7024 Hollywood Boulevard, Los Angeles, CA 90028</p>
+
+                <div class="location-meta-grid">
+                  <span class="location-meta-pill"><i class="fas fa-clock"></i> 10:00 AM - 11:00 PM</span>
+                  <span class="location-meta-pill"><i class="fas fa-route"></i> 4.5 mi away</span>
+                  <span class="location-meta-pill"><i class="fas fa-truck-fast"></i> Delivery</span>
+                  <span class="location-meta-pill"><i class="fas fa-star"></i> 4.7 rating</span>
+                </div>
+
+                <div class="location-card-actions">
+                  <a class="location-primary-btn" href="https://www.google.com/maps/search/?api=1&query=Red+Oven+Pizza+Los+Angeles+Hollywood" target="_blank" rel="noopener">
+                    Directions <i class="fas fa-arrow-right"></i>
+                  </a>
+                  <a class="location-secondary-btn" href="tel:+13235550166">
+                    Call Branch <i class="fas fa-phone"></i>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="location-card" data-city="dallas" data-search="red oven pizza dallas uptown pickup dine-in open" data-tags="open dine-in pickup">
+              <div class="location-card-top">
+                <div class="location-card-badges">
+                  <span class="location-status open"><i class="fas fa-circle"></i> Open Now</span>
+                  <span class="location-service">Family Area</span>
+                </div>
+                <span class="location-city-mark">DAL</span>
+                
+              </div>
+              <div class="location-card-body">
+                <h3>Red Oven Pizza - Dallas Uptown</h3>
+                <p class="location-address">3110 McKinney Avenue, Dallas, TX 75204</p>
+
+                <div class="location-meta-grid">
+                  <span class="location-meta-pill"><i class="fas fa-clock"></i> 11:00 AM - 10:30 PM</span>
+                  <span class="location-meta-pill"><i class="fas fa-route"></i> 5.0 mi away</span>
+                  <span class="location-meta-pill"><i class="fas fa-utensils"></i> Dine-In</span>
+                  <span class="location-meta-pill"><i class="fas fa-star"></i> 4.6 rating</span>
+                </div>
+
+                <div class="location-card-actions">
+                  <a class="location-primary-btn" href="https://www.google.com/maps/search/?api=1&query=Red+Oven+Pizza+Dallas+Uptown" target="_blank" rel="noopener">
+                    Directions <i class="fas fa-arrow-right"></i>
+                  </a>
+                  <a class="location-secondary-btn" href="tel:+12145550130">
+                    Call Branch <i class="fas fa-phone"></i>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="location-card" data-city="seattle" data-search="red oven pizza seattle capitol hill opening soon pickup delivery" data-tags="opening-soon delivery pickup">
+              <div class="location-card-top">
+                <div class="location-card-badges">
+                  <span> </span>
+                  <span class="location-service">Coming Soon</span>
+                </div>
+                <span class="location-city-mark">SEA</span>
+              </div>
+              <div class="location-card-body">
+                <h3>Red Oven Pizza - Seattle Capitol Hill</h3>
+                <p class="location-address">418 Broadway East, Seattle, WA 98102</p>
+
+                <div class="location-meta-grid">
+                  <span class="location-meta-pill"><i class="fas fa-calendar"></i> Opens Soon</span>
+                  <span class="location-meta-pill"><i class="fas fa-route"></i> New branch</span>
+                  <span class="location-meta-pill"><i class="fas fa-truck-fast"></i> Delivery</span>
+                  <span class="location-meta-pill"><i class="fas fa-bell"></i> Notify me</span>
+                </div>
+
+                <div class="location-card-actions">
+                  <a class="location-primary-btn" href="https://www.google.com/maps/search/?api=1&query=Red+Oven+Pizza+Seattle+Capitol+Hill" target="_blank" rel="noopener">
+                    View Area <i class="fas fa-arrow-right"></i>
+                  </a>
+                  <button class="location-secondary-btn notify-branch-btn" type="button" data-branch="Seattle Capitol Hill">
+                    Notify Me <i class="fas fa-bell"></i>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <div class="locations-empty-state" id="locationsEmptyState">
+              <i class="fas fa-map-location-dot"></i>
+              <h3>No branches found</h3>
+              <p>Try another city, service filter or branch keyword to find a Red Oven Pizza location.</p>
+            </div>
+          </div>
+
+          <aside class="locations-map-card" aria-label="Map overview">
+            <div class="locations-map-head">
+              <div>
+                <h3>Branch map view</h3>
+                <p>Select a city shortcut below to quickly filter the branch list.</p>
+              </div>
+              <div class="locations-map-icon"><i data-lucide="map"></i></div>
+            </div>
+
+            
+
+            <div class="locations-map-list">
+              <button type="button" data-city-shortcut="chicago">
+                <span class="map-list-icon"><i class="fas fa-location-dot"></i></span>
+                <span class="map-list-copy"><strong>Chicago</strong><span>Downtown oven open now</span></span>
+                <span class="map-list-arrow"><i class="fas fa-chevron-right"></i></span>
+              </button>
+
+              <button type="button" data-city-shortcut="miami">
+                <span class="map-list-icon"><i class="fas fa-location-dot"></i></span>
+                <span class="map-list-copy"><strong>Miami</strong><span>Beachside pickup and delivery</span></span>
+                <span class="map-list-arrow"><i class="fas fa-chevron-right"></i></span>
+              </button>
+
+              <button type="button" data-city-shortcut="new york">
+                <span class="map-list-icon"><i class="fas fa-location-dot"></i></span>
+                <span class="map-list-copy"><strong>New York</strong><span>Late-night Times Square branch</span></span>
+                <span class="map-list-arrow"><i class="fas fa-chevron-right"></i></span>
+              </button>
+
+              <button type="button" data-city-shortcut="all">
+                <span class="map-list-icon"><i class="fas fa-store"></i></span>
+                <span class="map-list-copy"><strong>All branches</strong><span>Reset filters and view all</span></span>
+                <span class="map-list-arrow"><i class="fas fa-chevron-right"></i></span>
+              </button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    
+  </main>
+
+  <!-- Footer -->
+  <footer class="pizza-footer">
+    <div class="pizza-footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">
+          <img src="Assets/logo.png" alt="Red Oven Pizza Logo">
+        </a>
+
+        <p>
+          Freshly baked pizzas, hot deals, and delicious moments delivered to your door.
+        </p>
+      </div>
+
+      <div class="footer-links-wrap">
+        <div class="footer-link-column">
+          <h4>Pages</h4>
+          <a href="index.html">Home</a>
+          <a href="menu.html">Menu</a>
+          <a href="deals.html">Deals</a>
+          <a href="locations.html">Locations</a>
+        </div>
+
+        <div class="footer-link-column">
+          <h4>Shop</h4>
+          <a href="menu.html">Combos</a>
+          <a href="menu.html">Family Meals</a>
+          <a href="menu.html">Beverages</a>
+          <a href="menu.html">Desserts</a>
+        </div>
+
+        <div class="footer-link-column">
+          <h4>Company</h4>
+          <a href="index.html#about-shop">About Us</a>
+          <a href="#">Gallery</a>
+          <a href="locations.html">Locations</a>
+          <a href="contact.html">Contact</a>
+        </div>
+
+        <div class="footer-link-column">
+          <h4>Support</h4>
+          <a href="#">Order Tracking</a>
+          <a href="#">Help Center</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2024 Red Oven Pizza. All rights reserved.</p>
+
+      <div class="footer-socials">
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+
+      <p>Good pizza. Good moments.</p>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Menu -->
+  <div class="bottom-menu" aria-label="Mobile quick actions">
+    <div class="bottom-menu-inner">
+      <button class="bottom-cart-btn" type="button" id="bottomCartBtn" aria-label="Cart">
+        <i data-lucide="shopping-bag"></i>
+        <span class="bottom-cart-count cart-count">0</span>
+      </button>
+
+      <button class="bottom-order-btn" type="button" id="bottomFindBranchBtn">
+        Find a Branch
+      </button>
+    </div>
+  </div>
+
+  <div class="locations-toast" id="locationsToast" role="status" aria-live="polite"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+      }
+
+      const menuBtn = document.querySelector(".mobile-menu-btn");
+      const mobileNav = document.querySelector(".mobile-nav");
+      const toast = document.getElementById("locationsToast");
+      const locationSearchInput = document.getElementById("locationSearchInput");
+      const clearLocationSearch = document.getElementById("clearLocationSearch");
+      const citySelect = document.getElementById("citySelect");
+      const filterButtons = document.querySelectorAll(".location-filter-btn");
+      const locationCards = document.querySelectorAll(".location-card");
+      const emptyState = document.getElementById("locationsEmptyState");
+      const showAllBranchesBtn = document.getElementById("showAllBranchesBtn");
+      const bottomFindBranchBtn = document.getElementById("bottomFindBranchBtn");
+      const headerCartBtn = document.querySelector(".pizza-header .cart-btn");
+      const bottomCartBtn = document.getElementById("bottomCartBtn");
+      let activeFilter = "all";
+
+      function showToast(message) {
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 1700);
+      }
+
+      if (menuBtn && mobileNav) {
+        menuBtn.addEventListener("click", () => {
+          mobileNav.classList.toggle("is-open");
+          const isOpen = mobileNav.classList.contains("is-open");
+          menuBtn.innerHTML = isOpen ? '<i data-lucide="x"></i>' : '<i data-lucide="menu"></i>';
+
+          if (typeof lucide !== "undefined") {
+            lucide.createIcons();
+          }
+        });
+      }
+
+      document.querySelectorAll(".mobile-nav a").forEach((link) => {
+        link.addEventListener("click", () => {
+          if (mobileNav) mobileNav.classList.remove("is-open");
+          if (menuBtn) {
+            menuBtn.innerHTML = '<i data-lucide="menu"></i>';
+            if (typeof lucide !== "undefined") lucide.createIcons();
+          }
+        });
+      });
+
+      function applyLocationFilters() {
+        const searchValue = locationSearchInput ? locationSearchInput.value.trim().toLowerCase() : "";
+        const selectedCity = citySelect ? citySelect.value.toLowerCase() : "all";
+        let visibleCount = 0;
+
+        if (clearLocationSearch) {
+          clearLocationSearch.classList.toggle("is-visible", searchValue.length > 0);
+        }
+
+        locationCards.forEach((card) => {
+          const cardCity = (card.dataset.city || "").toLowerCase();
+          const searchText = (card.dataset.search || "").toLowerCase();
+          const tags = (card.dataset.tags || "").toLowerCase();
+
+          const matchesSearch = !searchValue || searchText.includes(searchValue);
+          const matchesCity = selectedCity === "all" || cardCity === selectedCity;
+          const matchesFilter = activeFilter === "all" || tags.includes(activeFilter);
+          const shouldShow = matchesSearch && matchesCity && matchesFilter;
+
+          card.classList.toggle("hide", !shouldShow);
+          if (shouldShow) visibleCount += 1;
+        });
+
+        if (emptyState) {
+          emptyState.classList.toggle("show", visibleCount === 0);
+        }
+      }
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          activeFilter = button.dataset.filter || "all";
+          filterButtons.forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
+          applyLocationFilters();
+        });
+      });
+
+      if (locationSearchInput) {
+        locationSearchInput.addEventListener("input", applyLocationFilters);
+      }
+
+      if (citySelect) {
+        citySelect.addEventListener("change", applyLocationFilters);
+      }
+
+      if (clearLocationSearch) {
+        clearLocationSearch.addEventListener("click", () => {
+          if (locationSearchInput) {
+            locationSearchInput.value = "";
+            locationSearchInput.focus();
+          }
+          applyLocationFilters();
+        });
+      }
+
+      if (showAllBranchesBtn) {
+        showAllBranchesBtn.addEventListener("click", () => {
+          activeFilter = "all";
+          filterButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.filter === "all"));
+          if (citySelect) citySelect.value = "all";
+          if (locationSearchInput) locationSearchInput.value = "";
+          applyLocationFilters();
+          document.getElementById("branches")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
+
+      document.querySelectorAll("[data-city-shortcut]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const city = button.dataset.cityShortcut || "all";
+          if (citySelect) citySelect.value = city;
+          if (locationSearchInput) locationSearchInput.value = "";
+          activeFilter = "all";
+          filterButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.filter === "all"));
+          applyLocationFilters();
+          document.getElementById("branches")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+
+      document.querySelectorAll(".notify-branch-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+          const branch = button.dataset.branch || "this branch";
+          showToast(`Opening alert enabled for ${branch}`);
+        });
+      });
+
+      const openingSoonBtn = document.getElementById("openingSoonBtn");
+      if (openingSoonBtn) {
+        openingSoonBtn.addEventListener("click", () => {
+          activeFilter = "opening-soon";
+          filterButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.filter === "opening-soon"));
+          if (citySelect) citySelect.value = "all";
+          if (locationSearchInput) locationSearchInput.value = "";
+          applyLocationFilters();
+          document.getElementById("branches")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          showToast("Showing opening soon branches");
+        });
+      }
+
+      if (bottomFindBranchBtn) {
+        bottomFindBranchBtn.addEventListener("click", () => {
+          document.getElementById("branches")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
+
+      function showEmptyCartToast() {
+        showToast("Your cart is empty");
+      }
+
+      if (headerCartBtn) headerCartBtn.addEventListener("click", showEmptyCartToast);
+      if (bottomCartBtn) bottomCartBtn.addEventListener("click", showEmptyCartToast);
+
+      applyLocationFilters();
+    });
+  </script>
+</body>
+</html>
